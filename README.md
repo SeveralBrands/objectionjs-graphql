@@ -37,17 +37,21 @@ const Review = require('./models/Review');
 
 // This is all you need to do to generate the schema.
 const graphQlSchema = async () => {
- const builder = await graphQlBuilder(
-// Cache Options
-    {
-        host: 'localhost',
-        port: 6379,
-        redisKeyPrefix: 'gqlCache',
-        timeout: 10
+ const builder = await graphQlBuilder({
+// Builder options, currently only 'redis' is availabe
+        redis: {
+            host: 'localhost',
+            port: 6379,
+            redisKeyPrefix: 'gqlCache',
+            cacheTimeout: 10
+        }
     }
  ).allModels([Movie, Person, Review]);
-// Specifying Cache options when building the GraphQL schema is not necessary but it can drastically improve performance
-// GraphQL Caching options are : "host, port, redisKeyPrefix, timeout"
+// Currently, only redis configuration is available as configuration for the GraphQL schema builder
+
+// Specifying Redis options when building the GraphQL schema is not necessary but it can drastically improve performance
+
+// GraphQL Caching/Redis options are : "host, port, redisKeyPrefix, timeout"
 
 // 'host' and 'port' specify the host and port of your Redis connection
 
